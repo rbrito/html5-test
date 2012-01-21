@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Testing video (detection) in HTML5</title>
+</head>
+
+<body>
+
+<div style="text-align:center"> 
+
+  <!-- <button onclick="playPause()">Play/Pause</button> -->
+  <!-- <button onclick="makeBig()">Big</button> -->
+  <!-- <button onclick="makeSmall()">Small</button> -->
+  <!-- <button onclick="makeNormal()">Normal</button> -->
+  <!-- <br />  -->
+
+  <h1>What videos can I play?</h1>
+
+  <video id="video1" width="33%" controls="controls">
+    <!-- onclick="alert('Theora/Ogg file!')"> -->
+    <source src="./video.ogv" type="video/ogg" />
+  </video>
+
+  <video id="video2" width="33%" controls="controls">
+    <!-- onclick="alert('MP4 file!')"> -->
+    <source src="./video.mp4" type="video/mp4" />
+  </video>
+
+  <video id="video3" width="33%" controls="controls">
+    <!-- onclick="alert('WebM file!')"> -->
+    <source src="./video.webm" type="video/webm" />
+  </video>
+
+  <br />
+  
+</div>
+
+<div>
+  <h4>Video support:</h4>
+  <div id="checkVideoResult">
+    <p>Click on this button to see your HTML5 video support.</p>
+    <button onclick="checkVideo()">Video support summary</button>
+  </div>
+</div>
+
+<div>
+  <h4>GeoLocation (if possible):</h4>
+  <div id="geoloc">
+    <p>Click on the button to see your global coordinates.</p>
+    <button onclick="getLocation()">Show my position!</button>
+  </div>
+</div>
+
+<!-- <script type="text/javascript">  -->
+<!--   var myVideo=document.getElementById("video");  -->
+
+<!--   function playPause() -->
+<!--   {  -->
+<!--   if (myVideo.paused)  -->
+<!--   myVideo.play();  -->
+<!--   else  -->
+<!--   myVideo.pause();  -->
+<!--   }  -->
+
+<!--   function makeBig() -->
+<!--   {  -->
+<!--   myVideo.height=(myVideo.videoHeight*2);  -->
+<!--   }  -->
+
+<!--   function makeSmall() -->
+<!--   {  -->
+<!--   myVideo.height=(myVideo.videoHeight/2);  -->
+<!--   }  -->
+
+<!--   function makeNormal() -->
+<!--   {  -->
+<!--   myVideo.height=(myVideo.videoHeight);  -->
+<!--   }  -->
+<!-- </script>  -->
+
+<script type="text/javascript">
+function checkVideo(){
+  if(!!document.createElement('video').canPlayType){
+    var vidTest=document.createElement("video");
+    var ogg="yes"; webm="yes"; h264="yes";
+    oggTest=vidTest.canPlayType('video/ogg; codecs="theora, vorbis"');
+    if (!oggTest) {ogg="no"}
+    h264Test=vidTest.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
+    if (!h264Test) {h264="no"}
+    webmTest=vidTest.canPlayType('video/webm; codecs="vp8, vorbis"');
+    if (!webmTest) {webm="no"}
+    
+    document.getElementById("checkVideoResult").innerHTML="<p>Here is your video support result: <ul> <li>Ogg (Theora/Vorbis)= "+ogg+".</li> <li>H.264 (AVC/AAC)= "+h264+".</li> <li>WebM (VP8/Vorbis)= "+webm+".</li> </ul> </p>"+"<input type='button' value='Reload Page' onclick='window.location.reload()'>";
+  }
+  else{
+    document.getElementById("checkVideoResult").innerHTML="<p>Sorry. No video support at all.</p>"+"<input type='button' value='Reload Page' onclick='window.location.reload()'>";
+  }
+}
+</script>
+
+<script type="text/javascript">
+var x=document.getElementById("geoloc");
+function getLocation()
+  {
+  if (navigator.geolocation)
+    {
+    navigator.geolocation.getCurrentPosition(showPosition);
+    }
+  else{x.innerHTML="<p>Geolocation is not supported by this browser.</p>"+"<input type='button' value='Reload Page' onclick='window.location.reload()'>";}
+  }
+function showPosition(position)
+  {
+  x.innerHTML="<p>Latitude: " + position.coords.latitude + 
+  "<br />Longitude: " + position.coords.longitude + "</p> <input type='button' value='Reload Page' onclick='window.location.reload()'>";	
+  }
+</script>
+
+</body>
+</html>
